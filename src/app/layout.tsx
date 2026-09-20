@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Río Gestión | Software de gestión, desarrollo a medida y diseño",
+  title: "Río Gestión | Software",
   description:
     "Software ERP con app mobile + IA, desarrollo de apps y tiendas online vinculadas, y diseño gráfico — todo bajo un mismo techo.",
 };
