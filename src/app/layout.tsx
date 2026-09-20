@@ -1,13 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Light Saas Landing Page",
-  description: "Template created by Frontend Tribe",
+  title: "Río Gestión | Software de gestión, desarrollo a medida y diseño",
+  description:
+    "Software ERP con app mobile + IA, desarrollo de apps y tiendas online vinculadas, y diseño gráfico — todo bajo un mismo techo.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -16,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="relative">
-      <body className={clsx(dmSans.className, "antialiased bg-[#EAEEFE]")}>
+    <html lang="es" className={`${dmSans.variable} relative`}>
+      <body className={twMerge(dmSans.className, "antialiased bg-rio-dark text-white")}>
         {children}
       </body>
     </html>

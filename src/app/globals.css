@@ -1,3 +1,224 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ────────────────────────────────────────────────────────────
+   Marquee — keyframes explícitos para garantizar la animación
+   ──────────────────────────────────────────────────────────── */
+@keyframes marquee-ltr {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-33.3333%, 0, 0); }
+}
+
+@keyframes marquee-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.marquee-track {
+  display: flex !important;
+  width: max-content !important;
+  animation: marquee-ltr 25s linear infinite !important;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-fade-in {
+  opacity: 0;
+  animation: marquee-fade-in 0.9s ease-out 0.2s forwards;
+}
+
+/* ────────────────────────────────────────────────────────────
+   GLOBAL — paleta negra/dorada inspirada en el software RG WEB
+   ──────────────────────────────────────────────────────────── */
+
+html { scroll-behavior: smooth; }
+
+:root {
+  --header-height: 110px;
+}
+
+/* Mobile header es levemente más alto (announcement bar wrap) */
+@media (max-width: 767px) {
+  :root { --header-height: 120px; }
+}
+
+/* Hero: SIEMPRE cubre el viewport bajo el header.
+   Fallback de 100vh primero, override con 100dvh para navegadores modernos. */
+.hero-full {
+  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100dvh - var(--header-height));
+  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
+}
+
+body {
+  background: #0B0C0F;
+  color: #F5F5F5;
+}
+
+/* Scrollbar dorado */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0B0C0F; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #EABD23, #a07800);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: #EABD23; }
+::selection { background: rgba(234,189,35,0.45); color: #0B0C0F; }
+
+@layer components {
+  /* ── Botones ─────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 font-semibold transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden bg-gradient-to-br from-rio-gold via-yellow-300 to-rio-gold text-rio-dark font-bold
+           shadow-[0_0_24px_rgba(234,189,35,0.45)]
+           hover:shadow-[0_0_44px_rgba(234,189,35,0.7)] hover:scale-[1.03];
+  }
+
+  .btn-ghost {
+    @apply border border-rio-gold/25 bg-white/[0.04] text-white/90 backdrop-blur-sm
+           hover:border-rio-gold/55 hover:bg-rio-gold/10 hover:text-white;
+  }
+
+  .btn-text {
+    @apply bg-transparent text-white/80 hover:text-rio-gold transition-colors;
+  }
+
+  /* ── Píldoras / Tags ────────────────────────────────────── */
+  .tag {
+    @apply inline-flex items-center gap-2 rounded-full border border-rio-gold/35 bg-rio-gold/10
+           px-4 py-1.5 text-sm font-semibold text-rio-gold backdrop-blur-sm;
+  }
+
+  .glow-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-rio-gold/40 bg-rio-gold/10
+           px-4 py-1.5 text-sm font-semibold text-rio-gold
+           shadow-[0_0_18px_rgba(234,189,35,0.25)];
+  }
+
+  /* ── Tipografía de secciones ─────────────────────────────── */
+  .section-title {
+    @apply text-center font-bold tracking-tight
+           text-3xl sm:text-4xl md:text-[56px] md:leading-[1.05];
+  }
+
+  .section-description {
+    @apply text-center text-lg leading-8 text-white/55;
+  }
+
+  .section-heading {
+    @apply max-w-[720px] mx-auto;
+  }
+}
+
+@layer utilities {
+  .text-shine-gold {
+    background: linear-gradient(90deg, #EABD23, #FCE585, #EABD23);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: shimmer 3.5s linear infinite;
+  }
+
+  /* Borde dorado animado en conic-gradient */
+  .border-gold-glow {
+    position: relative;
+  }
+  .border-gold-glow::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from var(--angle, 0deg),
+      rgba(234,189,35,0.65), rgba(234,189,35,0) 30%,
+      rgba(234,189,35,0) 70%, rgba(234,189,35,0.65));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: border-rotate 6s linear infinite;
+    pointer-events: none;
+  }
+
+  .glow-gold-sm { filter: drop-shadow(0 0 8px rgba(234,189,35,0.35)); }
+  .glow-gold    { filter: drop-shadow(0 0 18px rgba(234,189,35,0.45)); }
+  .glow-gold-lg { filter: drop-shadow(0 0 32px rgba(234,189,35,0.6)); }
+
+  .bg-grid-soft {
+    background-image:
+      linear-gradient(rgba(234,189,35,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(234,189,35,0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .bg-dots-gold {
+    background-image: radial-gradient(rgba(234,189,35,0.28) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .mask-radial-fade {
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 50%, transparent 90%);
+            mask-image: radial-gradient(ellipse at center, #000 50%, transparent 90%);
+  }
+
+  /* Safe area helper para iOS con notch/home indicator */
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top    { padding-top: env(safe-area-inset-top); }
+
+  /* Shine sweep para botones / cards */
+  .shine { position: relative; overflow: hidden; }
+  .shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg,
+      transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+    transform: translateX(-150%) skewX(-12deg);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+  .shine:hover::after { transform: translateX(150%) skewX(-12deg); }
+}
+
+/* Property registrada para animar el conic-gradient del borde dorado */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ── Accesibilidad: focus visible consistente ───────────────── */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-rio-gold ring-offset-2 ring-offset-rio-dark;
+  }
+}
+
+/* ── Accesibilidad: respetar prefers-reduced-motion ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
