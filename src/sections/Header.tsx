@@ -126,7 +126,7 @@ export const Header = () => {
         </motion.div>
 
         <div className="py-3.5">
-          <div className="container grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <div className="container flex items-center justify-between gap-4 md:grid md:grid-cols-[1fr_auto_1fr]">
             {/* Logo */}
             <motion.a
               href="#inicio"
