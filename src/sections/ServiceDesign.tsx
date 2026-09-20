@@ -198,7 +198,7 @@ const categories: Category[] = [
   {
     id: "packaging",
     label: "Packaging",
-    title: "Packaging que se recuerda.",
+    title: "Packaging que vende.",
     description:
       "Cajas, etiquetas y presentaciones premium. Cada empaque, una experiencia de marca.",
     badge: "02",
@@ -300,7 +300,7 @@ export const ServiceDesign = () => {
           <SectionTitle className="mt-5 font-black text-rio-dark">
             Marcas que{" "}
             <span className="bg-gradient-to-r from-rio-gold via-yellow-500 to-rio-gold bg-clip-text text-transparent">
-              venden.
+              enamoran.
             </span>
           </SectionTitle>
           <p className="mt-5 text-pretty text-center text-lg leading-8 text-rio-dark/60 md:text-xl">
