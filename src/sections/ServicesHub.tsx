@@ -1,9 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { SectionTitle } from "@/components/SectionTitle";
 
 /* ─── Nuestros servicios — 3 CARDS clickeables (Rio Gestión) ─────── */
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+};
 
 type Service = {
   id: "gestion" | "desarrollo" | "diseno";
@@ -67,6 +81,8 @@ const services: Service[] = [
 ];
 
 export const ServicesHub = () => {
+  const isMobile = useIsMobile();
+
   const handleCardClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     target: string,
@@ -205,9 +221,28 @@ export const ServicesHub = () => {
 
               {/* Footer: separator + CTA clickeable */}
               <div className="relative z-20 flex items-center justify-between border-t-2 border-rio-dark/[0.08] pt-5 transition-colors duration-500 group-hover:border-rio-gold/30">
-                <span className="text-[11px] font-bold uppercase tracking-widest text-rio-dark/65 transition-colors duration-500 group-hover:text-rio-gold">
-                  Descubrir más
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-rio-dark/65 transition-colors duration-500 group-hover:text-rio-gold">
+                    Descubrir más
+                  </span>
+                  {/* Hand-pointer indicator (incita al click en mobile, estático en desktop) */}
+                  <motion.svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    animate={isMobile ? { y: [0, -4, 0], scale: [1, 1.12, 1] } : undefined}
+                    transition={isMobile ? { duration: 1.4, repeat: Infinity, ease: "easeInOut" } : undefined}
+                    className="h-4 w-4 text-rio-gold transition-colors duration-300"
+                  >
+                    <path d="M9 11.5V6a2 2 0 1 1 4 0v5" />
+                    <path d="M13 9V4a2 2 0 1 1 4 0v9" />
+                    <path d="M17 9V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a6 6 0 0 1-5.66-4l-1.85-4.49a2 2 0 1 1 3.66-1.65L11 14" />
+                  </motion.svg>
+                </div>
                 <span
                   aria-hidden
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rio-dark/[0.04] text-rio-dark transition-all duration-300 group-hover:scale-110 group-hover:bg-rio-gold group-hover:text-rio-dark group-hover:shadow-[0_0_18px_rgba(234,189,35,0.55)]"
