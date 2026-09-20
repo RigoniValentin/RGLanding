@@ -18,6 +18,7 @@ import DashboardFinal6 from "@/assets/DashboardFinal6.png";
 import dashboardAlt1   from "@/assets/dashboard-principal-2.png";
 import dashboardAlt2   from "@/assets/dashboard-principal-3.png";
 import dashboardAlt3   from "@/assets/dashboard-principal.png";
+import wspImage1 from "@/assets/Wsp.png";
 
 import { PlanFinderButton } from "@/components/PlanFinderButton";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -131,8 +132,8 @@ const features: Feature[] = [
     icon: "✦",
     title: "Integración con WhatsApp Business",
     desc: "",
-    image: dashboardAlt1,
-    images: [dashboardAlt1, dashboardAlt1, dashboardAlt1],
+    image: wspImage1,
+    images: [wspImage1],
     tag: "WhatsApp",
     highlight: {
       lead:

@@ -31,11 +31,25 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+};
+
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [mounted, setMounted] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (window.location.hash) return;
@@ -62,7 +76,8 @@ export const Hero = () => {
     return () => obs.disconnect();
   }, [prefersReducedMotion]);
 
-  const animate = mounted && !prefersReducedMotion && inView;
+  const animate = mounted && !prefersReducedMotion && inView && !isMobile;
+  const reduceEffects = prefersReducedMotion || isMobile;
 
   return (
     <section
@@ -129,9 +144,9 @@ export const Hero = () => {
           className="mx-auto max-w-4xl text-center"
         >
           <motion.div variants={fadeUp} className="flex justify-center">
-            <div className="glow-pill animate-pulse-glow">
+            <div className={`glow-pill ${reduceEffects ? "" : "animate-pulse-glow"}`}>
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rio-gold opacity-75" />
+                <span className={`absolute inline-flex h-full w-full rounded-full bg-rio-gold opacity-75 ${reduceEffects ? "" : "animate-ping"}`} />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-rio-gold" />
               </span>
               Software · Desarrollo · Diseño
@@ -143,7 +158,7 @@ export const Hero = () => {
             className="mt-7 text-[2.4rem] font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-[68px] md:leading-[1.02]"
           >
             Gestionamos con vos,{" "}
-            <span className="block bg-gradient-to-r from-rio-gold via-yellow-200 to-rio-gold bg-clip-text text-transparent [background-size:200%] animate-gradient-x">
+            <span className={`block bg-gradient-to-r from-rio-gold via-yellow-200 to-rio-gold bg-clip-text text-transparent [background-size:200%] ${reduceEffects ? "" : "animate-gradient-x"}`}>
               crecemos juntos.
             </span>
           </motion.h1>
